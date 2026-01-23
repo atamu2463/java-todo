@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Todo App</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+    
+    <p>こんにちは、userさん</p>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">ログアウト</button>
+    </form>
+    <hr>
+
+    <form th:action="@{/todos}" method="post">
+        <input type="text" name="title" placeholder="新しいタスク" required>
+        <button type="submit">追加</button>
+    </form>
+
+    <table border="1">
+        <tr>
+            <th>状態</th>
+            <th>内容</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="todo : ${todos}">
+            <td>
+                <span th:text="${todo.completed ? '✅完了' : 'ーー'}"></span>
+            </td>
+            <td>
+                <span th:text="${todo.title}"></span>
+            </td>
+            <td>
+                <form th:action="@{/todos/{id}/toggle(id=${todo.id})}" method="post" style="display:inline;">
+                    <button type="submit" th:text="${todo.completed ? '戻す' : '完了'}"></button>
+                </form>
+                <form th:action="@{/todos/{id}/delete(id=${todo.id})}" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('消してもいいですか？')">削除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
