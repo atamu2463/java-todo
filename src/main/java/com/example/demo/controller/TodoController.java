@@ -1,10 +1,11 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import com.example.demo.service.TodoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller // RestControllerからControllerに変更
+@Controller 
 @RequestMapping("/todos")
 public class TodoController {
 
@@ -31,7 +32,7 @@ public class TodoController {
         return "redirect:/todos"; // 作成後は一覧へリダイレクト
     }
 
-    // 3. 完了状態の切り替え (Updateの簡易版)
+    // 3. 完了状態の切り替え
     @PostMapping("/{id}/toggle")
     public String toggle(@PathVariable Long id) {
         Todo todo = repository.findById(id).orElseThrow();
