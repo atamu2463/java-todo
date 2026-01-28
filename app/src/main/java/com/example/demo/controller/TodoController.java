@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.TodoService;
+import com.example.demo.model.Todo;
+import com.example.demo.repository.TodoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
