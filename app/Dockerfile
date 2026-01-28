@@ -4,6 +4,7 @@ WORKDIR /app
 # フォルダの中身を指定してコピー
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
+COPY src ./src
 
 # ここでもう一度確認（これが通れば成功！）
 RUN ls -la .mvn/wrapper/maven-wrapper.properties
