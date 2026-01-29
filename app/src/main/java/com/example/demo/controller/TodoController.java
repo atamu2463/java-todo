@@ -34,7 +34,7 @@ public class TodoController {
 
     // 2. 新規作成 (Create)
     @PostMapping
-    public String create(@Validated @ModelAttribute Todo todo, Model model, BindingResult result) {
+    public String create(@Validated @ModelAttribute Todo todo, BindingResult result, Model model) {
         //バリデーションチェック
         if (result.hasErrors()) {
             model.addAttribute("todos", repository.findAll());
