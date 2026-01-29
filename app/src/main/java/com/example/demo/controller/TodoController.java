@@ -1,37 +1,48 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.TodoService;
 import com.example.demo.model.Todo;
 import com.example.demo.repository.TodoRepository;
+import com.example.demo.service.TodoService; 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+
 
 @Controller 
 @RequestMapping("/todos")
 public class TodoController {
 
     private final TodoRepository repository;
+    private final TodoService service;
 
-    public TodoController(TodoRepository repository) {
+    public TodoController(TodoRepository repository, TodoService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     // 1. 一覧表示 (Read)
     @GetMapping
     public String list(Model model) {
         model.addAttribute("todos", repository.findAll());
-        return "index"; // templates/index.html を探す
+        //フォーム用の空のTodoオブジェクトを追加
+        model.addAttribute("todo", new Todo());
+        return "index";
     }
 
     // 2. 新規作成 (Create)
     @PostMapping
-    public String create(@RequestParam String title) {
-        Todo todo = new Todo();
-        todo.setTitle(title);
-        todo.setCompleted(false);
-        repository.save(todo);
-        return "redirect:/todos"; // 作成後は一覧へリダイレクト
+    public String create(@Validated @ModelAttribute Todo todo, BindingResult result, Model model) {
+        //バリデーションチェック
+        if (result.hasErrors()) {
+            model.addAttribute("todos", repository.findAll());
+            return "index";
+        }
+        service.save(todo.getTitle());
+
+        return "redirect:/todos"; 
     }
 
     // 3. 完了状態の切り替え
