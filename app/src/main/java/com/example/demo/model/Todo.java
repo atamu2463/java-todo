@@ -12,6 +12,9 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "タスク名を入力してください")
+    @Size(max = 50, message = "タスク名は50文字以内で入力してください")
     
     private String title;
     private boolean completed;
